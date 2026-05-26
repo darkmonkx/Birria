@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Get Birria With Me?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .cat-gif {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #d1496c;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+        #yesBtn {
+            background-color: #ff6b8b;
+            color: white;
+        }
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Replace with your cat gif URL or upload a gif file to the repository -->
+        <img class="cat-gif" src="cat.gif" alt="Cute cat">
+        <h1>🌸 Will you get birria with me? 🌸</h1>
+        
+        <div class="btn-container">
+            <button id="yesBtn" onclick="alert('Yay! Can\'t wait! 🥰')">YES 💕</button>
+            <button id="noBtn" onmouseover="transformButton()">NO</button>
+        </div>
+    </div>
+
+    <script>
+        function transformButton() {
+            const noBtn = document.getElementById('noBtn');
+            // Change text to Fuck Yes!
+            noBtn.innerText = "Fuck Yes! 💕";
+            // Match the YES button styles
+            noBtn.style.backgroundColor = "#ff6b8b";
+            noBtn.style.color = "white";
+            // Change click behavior to trigger the success event
+            noBtn.setAttribute("onclick", "alert('Yay! Can\'t wait! 🥰')");
+        }
+    </script>
+
+</body>
+</html>
