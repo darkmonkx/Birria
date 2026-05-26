@@ -13,6 +13,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
         .card {
             background: white;
@@ -40,7 +41,7 @@
             justify-content: center;
             gap: 20px;
             position: relative;
-            height: 50px;
+            height: 60px;
         }
         button {
             padding: 12px 25px;
@@ -55,9 +56,16 @@
             background-color: #ff6b8b;
             color: white;
         }
+        #yesBtn:hover {
+            background-color: #ff5878;
+        }
         #noBtn {
             background-color: #f0f0f0;
             color: #666;
+            position: absolute;
+        }
+        #noBtn:hover {
+            background-color: #e0e0e0;
         }
     </style>
 </head>
@@ -69,21 +77,29 @@
         <h1>🌸 Will you get birria with me? 🌸</h1>
         
         <div class="btn-container">
-            <button id="yesBtn" onclick="alert('Yay! Can\'t wait! 🥰')">YES 💕</button>
-            <button id="noBtn" onmouseover="transformButton()">NO</button>
+            <button id="yesBtn" onclick="alert('Yay! Can\'t wait! 🥰')">Fuck Yes! 💕</button>
+            <button id="noBtn" onmouseover="jumpButton()" onclick="jumpButton()">NO</button>
         </div>
     </div>
 
     <script>
-        function transformButton() {
+        function jumpButton() {
             const noBtn = document.getElementById('noBtn');
-            // Change text to Fuck Yes!
-            noBtn.innerText = "Fuck Yes! 💕";
-            // Match the YES button styles
-            noBtn.style.backgroundColor = "#ff6b8b";
-            noBtn.style.color = "white";
-            // Change click behavior to trigger the success event
-            noBtn.setAttribute("onclick", "alert('Yay! Can\'t wait! 🥰')");
+            const container = document.querySelector('.btn-container');
+            
+            // Generate random position within the container
+            const randomX = Math.random() * (container.offsetWidth - noBtn.offsetWidth);
+            const randomY = Math.random() * (container.offsetHeight - noBtn.offsetHeight);
+            
+            // Apply the random position
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Add a little shake animation for fun
+            noBtn.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                noBtn.style.transform = 'scale(1)';
+            }, 100);
         }
     </script>
 
