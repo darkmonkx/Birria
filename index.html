@@ -14,16 +14,17 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="%23ff6b8b" opacity="0.8"/><circle cx="16" cy="16" r="10" fill="%23ff99b2"/></svg>') 16 16, auto;
         }
         .card {
-            background-image: url('background.jpg');
+            background-image: url('background.png');
             background-size: cover;
             background-position: center;
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
         }
         .cat-gif {
@@ -42,9 +43,10 @@
         .btn-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            align-items: center;
+            gap: 30px;
             position: relative;
-            height: 60px;
+            min-height: 60px;
         }
         button {
             padding: 12px 25px;
@@ -54,56 +56,101 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-weight: bold;
+            position: relative;
         }
         #yesBtn {
             background-color: #ff6b8b;
             color: white;
+            flex: 0 0 auto;
         }
         #yesBtn:hover {
             background-color: #ff5878;
+            transform: scale(1.05);
         }
         #noBtn {
             background-color: #f0f0f0;
             color: #666;
-            position: absolute;
+            flex: 0 0 auto;
         }
         #noBtn:hover {
             background-color: #e0e0e0;
+        }
+        .custom-cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #ff99b2, #ff6b8b);
+            border-radius: 50%;
+            border: 2px solid #ff5878;
+            pointer-events: none;
+            display: none;
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(255, 107, 139, 0.5);
         }
     </style>
 </head>
 <body>
 
+    <div class="custom-cursor" id="customCursor"></div>
+
     <div class="card">
-        <!-- Replace with your cat gif URL or upload a gif file to the repository -->
         <img class="cat-gif" src="cat.gif" alt="Cute cat">
         <h1>🌸 Will you get birria with me? 🌸</h1>
         
         <div class="btn-container">
             <button id="yesBtn" onclick="alert('Yay! Can\'t wait! 🥰')">Fuck Yes! 💕</button>
-            <button id="noBtn" onmouseover="jumpButton()" onclick="jumpButton()">NO</button>
+            <button id="noBtn" onmousemove="jumpCursor(event)">NO</button>
         </div>
     </div>
 
     <script>
-        function jumpButton() {
-            const noBtn = document.getElementById('noBtn');
-            const container = document.querySelector('.btn-container');
-            
-            // Generate random position within the container
-            const randomX = Math.random() * (container.offsetWidth - noBtn.offsetWidth);
-            const randomY = Math.random() * (container.offsetHeight - noBtn.offsetHeight);
-            
-            // Apply the random position
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-            
-            // Add a little shake animation for fun
-            noBtn.style.transform = 'scale(1.05)';
-            setTimeout(() => {
-                noBtn.style.transform = 'scale(1)';
-            }, 100);
+        const customCursor = document.getElementById('customCursor');
+        const noBtn = document.getElementById('noBtn');
+        let isNoBtnHovered = false;
+
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            // Position custom cursor
+            customCursor.style.left = (e.clientX - 15) + 'px';
+            customCursor.style.top = (e.clientY - 15) + 'px';
+            customCursor.style.display = 'block';
+        });
+
+        // Detect when cursor enters the NO button area
+        noBtn.addEventListener('mouseenter', () => {
+            isNoBtnHovered = true;
+        });
+
+        noBtn.addEventListener('mouseleave', () => {
+            isNoBtnHovered = false;
+        });
+
+        function jumpCursor(event) {
+            if (isNoBtnHovered) {
+                // Generate random position on screen
+                const randomX = Math.random() * (window.innerWidth - 30);
+                const randomY = Math.random() * (window.innerHeight - 30);
+                
+                // Jump the cursor
+                customCursor.style.left = randomX + 'px';
+                customCursor.style.top = randomY + 'px';
+                
+                // Add a pulse effect
+                customCursor.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    customCursor.style.transform = 'scale(1)';
+                }, 100);
+            }
         }
+
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            customCursor.style.display = 'none';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            customCursor.style.display = 'block';
+        });
     </script>
 
 </body>
