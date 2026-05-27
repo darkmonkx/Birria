@@ -1,219 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birria Date?</title>
-<style>
-  body {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Get Birria With Me?</title>
+  <style>
+    /* Base styles to make the custom cursor and card function correctly */
+    body {
       margin: 0;
       padding: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #ffe6f2;
-      font-family: 'Arial', sans-serif;
+      background-color: #ffeef2;
+      font-family: sans-serif;
       overflow: hidden;
-      cursor: none;
-  }
-  #overlay {
+      cursor: none; /* Hides default cursor so custom one shines */
+    }
+    .custom-cursor {
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      font-size: 24px;
+      pointer-events: none;
       z-index: 9999;
+      display: none;
+      transition: transform 0.1s ease;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .cat-gif {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    .btn-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 50px;
+      cursor: none;
+      font-weight: bold;
+      transition: transform 0.1s;
+    }
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+    #noBtn {
+      background-color: #ccc;
+      color: #333;
+    }
+    /* Overlay style placeholder for the startEverything function */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      z-index: 10000;
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: opacity 0.4s, visibility 0.4s;
+    }
+    .start-btn {
+      padding: 20px 40px;
+      font-size: 20px;
+      background: #ff4d6d;
       color: white;
-      text-align: center;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
-  #overlay div {
-      animation: pulse 1.5s infinite;
-  }
-  #overlay h2 { font-size: 3rem; margin-bottom: 0.5rem; }
-  #overlay p { font-size: 1.2rem; margin: 0; }
-  .card {
-      background: white;
-      padding: 3rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      text-align: center;
-      max-width: 450px;
-      position: relative;
-      z-index: 10;
-  }
-  .cat-gif { width: 200px; border-radius: 10px; margin-bottom: 1.5rem; }
-  h1 { color: #ff3385; font-size: 2rem; margin-bottom: 2rem; }
-  .btn-container { display: flex; justify-content: center; gap: 20px; position: relative; }
-  button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.2s;
-  }
-  #yesBtn { background: #ff3385; color: white; }
-  #yesBtn:hover { transform: scale(1.1); }
-  #noBtn { background: #ccc; color: white; }
-  
-  .custom-cursor {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      animation: sparkle 0.6s ease-in-out infinite;
-      font-size: 40px;
-      line-height: 40px;
-      text-align: center;
-  }
-
-  /* Falling Flower Petals Styles */
-  .petal {
-      position: fixed;
-      top: -50px;
-      font-size: 24px;
-      pointer-events: none;
-      z-index: 5;
-      animation: fall linear forwards;
-  }
-  @keyframes fall {
-      0% {
-          transform: translateY(0) rotate(0deg);
-          opacity: 1;
-      }
-      100% {
-          transform: translateY(110vh) rotate(360deg);
-          opacity: 0;
-      }
-  }
-</style>
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- On-Theme Entrance Overlay -->
+<!-- Audio element with your specified Catbox audio link -->
+<audio id="backgroundMusic" src="https://catbox.moe" loop></audio>
+
+<!-- Optional Overlay: click it to trigger music immediately if browser blocks autoplay -->
 <div id="overlay" onclick="startEverything()">
-    <div>
-        <h2>🌸 Ready? 🤘</h2>
-        <p>Click anywhere to enter</p>
-    </div>
+  <button class="start-btn">Click to Start 🌸</button>
 </div>
 
-<!-- CORS-Compliant Direct Stream Audio Endpoint -->
-<audio id="backgroundMusic" loop preload="auto">
-    <source src="https://google.com" type="audio/mpeg">
-</audio>
+<div class="custom-cursor" id="customCursor">🤘</div> 
+<div class="card"> 
+  <img class="cat-gif" src="cat.gif" alt="Cute cat"> 
+  <h1>🌸 Will you get birria with me? 🌸</h1> 
+  <div class="btn-container"> 
+    <button id="yesBtn" onclick="alert('Yay! Can\'t wait! 🥰')">🤘 Fuck Yes! 🤘</button> 
+    <button id="noBtn">NO</button> 
+  </div> 
+</div> 
 
-<div class="custom-cursor" id="customCursor">🤘</div>
+<script> 
+const customCursor = document.getElementById('customCursor'); 
+const noBtn = document.getElementById('noBtn'); 
+const backgroundMusic = document.getElementById('backgroundMusic'); 
+const overlay = document.getElementById('overlay'); 
+let isNoBtnHovered = false; 
+let cursorIsFlower = false; 
 
-<div class="card">
-    <img class="cat-gif" src="cat.gif" alt="Cute cat">
-    <h1>🌸 Will you get birria with me? 🌸</h1>
-    <div class="btn-container">
-        <button id="yesBtn" onclick="handleYesClick()">🤘 Fuck Yes! 🤘</button>
-        <button id="noBtn">NO</button>
-    </div>
-</div>
+// Unconditionally sets full volume and plays the track
+function playAudioUninterrupted() {
+  backgroundMusic.volume = 1.0; 
+  backgroundMusic.play().catch(error => {
+    console.log("Playback prevented until user interacts with page.");
+  });
+}
 
-<script>
-  const customCursor = document.getElementById('customCursor');
-  const noBtn = document.getElementById('noBtn');
-  const backgroundMusic = document.getElementById('backgroundMusic');
-  const overlay = document.getElementById('overlay');
-  
-  let isNoBtnHovered = false;
-  let cursorIsFlower = false; 
-
-  // Fades out the overlay and forces the track to play at full volume
-  function startEverything() {
-      backgroundMusic.volume = 1.0; 
-      backgroundMusic.play().catch(err => console.log("Audio play blocked: ", err));
-      
-      overlay.style.opacity = '0';
-      overlay.style.visibility = 'hidden';
-      setTimeout(() => {
-          overlay.style.display = 'none';
-      }, 400);
+// Fades out the overlay and starts the track 
+function startEverything() { 
+  playAudioUninterrupted(); 
+  if (overlay) {
+    overlay.style.opacity = '0'; 
+    overlay.style.visibility = 'hidden'; 
+    setTimeout(() => { 
+      overlay.style.display = 'none'; 
+    }, 400); 
   }
+} 
 
-  // Triggered when user selects yes
-  function handleYesClick() {
-      // 1. Instantly spawn falling flower petals BEFORE the blocking alert breaks the rendering cycle
-      for (let i = 0; i < 75; i++) {
-          createPetal();
-      }
-      
-      // 2. Set up a continuous rainfall loop so petals keep spawning while the alert window stays open
-      const petalInterval = setInterval(createPetal, 100);
-      
-      // 3. Keep your exact initial popup window alert
-      alert("Yay! Can't wait! 🥰");
-      
-      // Clear the interval after user hits OK so it doesn't leak memory infinitely
-      clearInterval(petalInterval);
-  }
+// Listen to ANY user interaction to play the audio
+['mousemove', 'click', 'keydown', 'scroll', 'touchstart'].forEach(eventType => {
+  document.addEventListener(eventType, playAudioUninterrupted);
+});
 
-  // Generates unique falling petals across the layout window
-  function createPetal() {
-      const petal = document.createElement('div');
-      petal.classList.add('petal');
-      petal.textContent = '🌸';
-      
-      // Randomize layout spawn points and speeds
-      petal.style.left = Math.random() * window.innerWidth + 'px';
-      const duration = Math.random() * 3 + 2; // Between 2s and 5s
-      petal.style.animationDuration = duration + 's';
-      
-      document.body.appendChild(petal);
-      
-      // Clean up DOM node elements once offscreen
-      setTimeout(() => {
-          petal.remove();
-      }, duration * 1000);
-  }
+// Track mouse movement 
+document.addEventListener('mousemove', (e) => { 
+  customCursor.style.left = (e.clientX - 20) + 'px'; 
+  customCursor.style.top = (e.clientY - 20) + 'px'; 
+  customCursor.style.display = 'block'; 
+  if (isNoBtnHovered) { 
+    const randomX = Math.random() * (window.innerWidth - 40); 
+    const randomY = Math.random() * (window.innerHeight - 40); 
+    customCursor.style.left = randomX + 'px'; 
+    customCursor.style.top = randomY + 'px'; 
+    customCursor.style.transform = 'scale(1.3)'; 
+    setTimeout(() => { 
+      customCursor.style.transform = 'scale(1)'; 
+    }, 100); 
+  } 
+}); 
 
-  // Track mouse movement and execute cursor jumping logic exactly as designed
-  document.addEventListener('mousemove', (e) => {
-      customCursor.style.left = (e.clientX - 20) + 'px';
-      customCursor.style.top = (e.clientY - 20) + 'px';
-      customCursor.style.display = 'block';
+noBtn.addEventListener('mouseenter', () => { 
+  isNoBtnHovered = true; 
+}); 
 
-      if (isNoBtnHovered) {
-          const randomX = Math.random() * (window.innerWidth - 40);
-          const randomY = Math.random() * (window.innerHeight - 40);
-          customCursor.style.left = randomX + 'px';
-          customCursor.style.top = randomY + 'px';
-          customCursor.style.transform = 'scale(1.3)';
-          setTimeout(() => {
-              customCursor.style.transform = 'scale(1)';
-          }, 100);
-      }
-  });
+noBtn.addEventListener('mouseleave', () => { 
+  isNoBtnHovered = false; 
+}); 
 
-  noBtn.addEventListener('mouseenter', () => {
-      isNoBtnHovered = true;
-  });
+document.addEventListener('click', (e) => { 
+  if (e.target !== noBtn && (!overlay || !overlay.contains(e.target))) { 
+    cursorIsFlower = !cursorIsFlower; 
+    customCursor.textContent = cursorIsFlower ? '🌸' : '🤘'; 
+  } 
+}); 
 
-  noBtn.addEventListener('mouseleave', () => {
-      isNoBtnHovered = false;
-  });
+document.addEventListener('mouseleave', () => { 
+  customCursor.style.display = 'none'; 
+}); 
 
-  document.addEventListener('click', (e) => {
-      if (e.target !== noBtn && !overlay.contains(e.target)) {
-          cursorIsFlower = !cursorIsFlower;
-          customCursor.textContent = cursorIsFlower ? '🌸' : '🤘';
-      }
-  });
-
-  document.addEventListener('mouseleave', () => {
-      customCursor.style.display = 'none';
-  });
-
-  document.addEventListener('mouseenter', () => {
-      customCursor.style.display = 'block';
-  });
-</script>
-</body>
+document.addEventListener('mouseenter', () => { 
+  customCursor.style.display = 'block'; 
+}); 
+</script> 
+</body> 
 </html>
