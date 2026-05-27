@@ -109,9 +109,8 @@
 </head>
 <body>
 
-    <audio id="backgroundMusic" autoplay loop>
+    <audio id="backgroundMusic" loop muted>
         <source src="Lorna%20Shore%20-%20To%20the%20Hellfire%20-%20(64%20Kbps).mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
     </audio>
 
     <div class="custom-cursor" id="customCursor">
@@ -141,12 +140,22 @@
         const backgroundMusic = document.getElementById('backgroundMusic');
         let isNoBtnHovered = false;
 
-        // Attempt to play audio on user interaction (browser autoplay policy)
-        document.addEventListener('click', () => {
+        // Play audio on first user interaction
+        function playAudio() {
+            backgroundMusic.muted = false;
             backgroundMusic.play().catch(error => {
-                console.log('Autoplay prevented:', error);
+                console.log('Audio playback error:', error);
             });
-        });
+            // Remove listeners after first play
+            document.removeEventListener('click', playAudio);
+            document.removeEventListener('touchstart', playAudio);
+            document.removeEventListener('keypress', playAudio);
+        }
+
+        // Add multiple event listeners for better browser compatibility
+        document.addEventListener('click', playAudio);
+        document.addEventListener('touchstart', playAudio);
+        document.addEventListener('keypress', playAudio);
 
         // Track mouse movement
         document.addEventListener('mousemove', (e) => {
