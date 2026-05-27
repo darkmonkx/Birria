@@ -104,8 +104,8 @@
 </head>
 <body>
 
-    <audio id="backgroundMusic" loop preload="auto">
-        <source src="https://archive.org" type="audio/mpeg">
+    <audio id="backgroundMusic" loop preload="auto" crossorigin="anonymous">
+        <source src="https://files.catbox.moe/nmcz5m.mp3" type="audio/mpeg">
     </audio>
 
     <div class="custom-cursor" id="customCursor">🤘</div>
@@ -151,13 +151,6 @@
         yesBtn.addEventListener('click', playAudio);
         noBtn.addEventListener('click', playAudio);
 
-        // Global fallback interaction listener to force Chrome to unlock audio capability
-        window.addEventListener('click', () => {
-            if (!audioStarted) {
-                playAudio();
-            }
-        }, { once: true });
-
         // Track mouse movement
         document.addEventListener('mousemove', (e) => {
             // Position custom cursor
@@ -181,6 +174,10 @@
         // Detect when cursor enters the NO button area
         noBtn.addEventListener('mouseenter', () => {
             isNoBtnHovered = true;
+            // Modern Chrome requires explicit audio wake-up if the interaction starts via hover
+            if (!audioStarted) {
+                playAudio();
+            }
         });
 
         noBtn.addEventListener('mouseleave', () => {
