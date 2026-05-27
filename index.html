@@ -134,23 +134,24 @@
         const backgroundMusic = document.getElementById('backgroundMusic');
         let isNoBtnHovered = false;
         let cursorIsFlower = false;
+        let audioStarted = false;
 
         // Play audio on first user interaction
         function playAudio() {
-            backgroundMusic.muted = false;
-            backgroundMusic.play().catch(error => {
-                console.log('Audio playback error:', error);
-            });
-            // Remove listeners after first play
-            document.removeEventListener('click', playAudio);
-            document.removeEventListener('touchstart', playAudio);
-            document.removeEventListener('keypress', playAudio);
+            if (!audioStarted) {
+                backgroundMusic.muted = false;
+                backgroundMusic.play().catch(error => {
+                    console.log('Audio playback error:', error);
+                });
+                audioStarted = true;
+            }
         }
 
         // Add multiple event listeners for better browser compatibility
         document.addEventListener('click', playAudio);
         document.addEventListener('touchstart', playAudio);
         document.addEventListener('keypress', playAudio);
+        document.addEventListener('mousemove', playAudio);
 
         // Track mouse movement
         document.addEventListener('mousemove', (e) => {
@@ -187,7 +188,7 @@
         document.addEventListener('click', (e) => {
             if (e.target !== noBtn) {
                 cursorIsFlower = !cursorIsFlower;
-                customCursor.textContent = cursorIsFlower ? '🌸' : '🤘';
+                customCursor.textContent = cursorIsFlower ? '💙' : '🤘';
             }
         });
 
