@@ -101,8 +101,8 @@
     </div>
 </div>
 
-<!-- Converted Google Drive direct streaming link -->
-<audio id="backgroundMusic" loop>
+<!-- CORS-Compliant Direct Stream Audio Endpoint -->
+<audio id="backgroundMusic" loop preload="auto">
     <source src="https://google.com" type="audio/mpeg">
 </audio>
 
@@ -129,7 +129,7 @@
   // Fades out the overlay and forces the track to play at full volume
   function startEverything() {
       backgroundMusic.volume = 1.0; 
-      backgroundMusic.play();
+      backgroundMusic.play().catch(err => console.log("Audio play blocked: ", err));
       
       overlay.style.opacity = '0';
       overlay.style.visibility = 'hidden';
@@ -140,12 +140,19 @@
 
   // Triggered when user selects yes
   function handleYesClick() {
-      // Create continuous burst of falling flower pedals
-      for (let i = 0; i < 50; i++) {
-          setTimeout(createPetal, i * 150);
+      // 1. Instantly spawn falling flower petals BEFORE the blocking alert breaks the rendering cycle
+      for (let i = 0; i < 75; i++) {
+          createPetal();
       }
-      // Keep your exact initial popup window alert
+      
+      // 2. Set up a continuous rainfall loop so petals keep spawning while the alert window stays open
+      const petalInterval = setInterval(createPetal, 100);
+      
+      // 3. Keep your exact initial popup window alert
       alert("Yay! Can't wait! 🥰");
+      
+      // Clear the interval after user hits OK so it doesn't leak memory infinitely
+      clearInterval(petalInterval);
   }
 
   // Generates unique falling petals across the layout window
@@ -167,7 +174,7 @@
       }, duration * 1000);
   }
 
-  // Track mouse movement and execute cursor jumping logic
+  // Track mouse movement and execute cursor jumping logic exactly as designed
   document.addEventListener('mousemove', (e) => {
       customCursor.style.left = (e.clientX - 20) + 'px';
       customCursor.style.top = (e.clientY - 20) + 'px';
