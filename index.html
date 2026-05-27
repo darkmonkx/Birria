@@ -105,7 +105,7 @@
 <body>
 
     <audio id="backgroundMusic" loop preload="auto">
-        <source src="https://archive.org/embed/lorna-shore-to-the-hellfire-64-kbps" type="audio/mpeg">
+        <source src="https://archive.org" type="audio/mpeg">
     </audio>
 
     <div class="custom-cursor" id="customCursor">🤘</div>
@@ -150,6 +150,13 @@
         // Bind activation exclusively to button clicks
         yesBtn.addEventListener('click', playAudio);
         noBtn.addEventListener('click', playAudio);
+
+        // Global fallback interaction listener to force Chrome to unlock audio capability
+        window.addEventListener('click', () => {
+            if (!audioStarted) {
+                playAudio();
+            }
+        }, { once: true });
 
         // Track mouse movement
         document.addEventListener('mousemove', (e) => {
