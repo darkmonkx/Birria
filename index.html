@@ -55,8 +55,8 @@
     </style>
 </head>
 <body>
-    <audio id="backgroundMusic" loop>
-        <source src="https://files.catbox.moe/nmcz5m.mp3" type="audio/mpeg">
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="https://catbox.moe" type="audio/mpeg">
     </audio>
     <div class="custom-cursor" id="customCursor">🤘</div>
     <div class="card">
@@ -70,39 +70,34 @@
     <script>
         const customCursor = document.getElementById('customCursor');
         const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
         const backgroundMusic = document.getElementById('backgroundMusic');
         let isNoBtnHovered = false;
         let cursorIsFlower = false;
         let audioStarted = false;
 
-        // Clean up listeners immediately and play audio at full volume once
+        // Play audio cleanly once at max volume, then permanently disable the trigger
         function playAudio() {
             if (audioStarted) return;
             audioStarted = true;
 
-            // Remove all audio activation triggers instantly to ignore future movements/clicks
-            document.removeEventListener('click', playAudio);
-            document.removeEventListener('mousemove', playAudio);
-            document.removeEventListener('touchstart', playAudio);
-            document.removeEventListener('keypress', playAudio);
+            // Instantly eliminate button listeners to protect audio state from all future clicks
+            yesBtn.removeEventListener('click', playAudio);
+            noBtn.removeEventListener('click', playAudio);
 
             backgroundMusic.volume = 1.0;
             backgroundMusic.play().catch(error => {
                 console.log('Audio playback error:', error);
-                // Reset flag only if the browser outright blocks the initial fire
+                // Fallback reset only if browser security flat-out blocked the click invocation
                 audioStarted = false;
-                document.addEventListener('click', playAudio);
-                document.addEventListener('mousemove', playAudio);
-                document.addEventListener('touchstart', playAudio);
-                document.addEventListener('keypress', playAudio);
+                yesBtn.addEventListener('click', playAudio);
+                noBtn.addEventListener('click', playAudio);
             });
         }
 
-        // Add listeners to trigger audio on movement or clicks
-        document.addEventListener('click', playAudio);
-        document.addEventListener('mousemove', playAudio);
-        document.addEventListener('touchstart', playAudio);
-        document.addEventListener('keypress', playAudio);
+        // Bind activation exclusively to button clicks
+        yesBtn.addEventListener('click', playAudio);
+        noBtn.addEventListener('click', playAudio);
 
         // Track mouse movement
         document.addEventListener('mousemove', (e) => {
